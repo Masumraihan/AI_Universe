@@ -26,7 +26,9 @@ const displayData = (singleAiData) => {
                     <small>${singleAiData.published_in}</small>
                     </div>
                     <div>
-                        <button onclick="loadSingleData('${singleAiData.id}')" class="btn bg-danger-subtle rounded-circle opacity-.1"><i class="fa-solid fa-arrow-right text-danger"></i></button>
+                        <button onclick="loadSingleData('${
+                          singleAiData.id
+                        }')" data-bs-toggle="modal" data-bs-target="#singleAiModal" class="btn bg-danger-subtle rounded-circle opacity-.1"><i class="fa-solid fa-arrow-right text-danger"></i></button>
                     </div>
                 </div>
             </div>
@@ -87,6 +89,6 @@ const loadSingleData = async (id) => {
   }
 };
 
-const displaySingleData = data => {
-    console.log(data);
-}
+const displaySingleData = (data) => {
+  console.log(data.data);
+};
