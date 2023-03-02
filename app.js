@@ -26,7 +26,7 @@ const displayData = (singleAiData) => {
                     <small>${singleAiData.published_in}</small>
                     </div>
                     <div>
-                        <button class="btn bg-danger-subtle rounded-circle opacity-.1"><i class="fa-solid fa-arrow-right text-danger"></i></button>
+                        <button onclick="loadSingleData('${singleAiData.id}')" class="btn bg-danger-subtle rounded-circle opacity-.1"><i class="fa-solid fa-arrow-right text-danger"></i></button>
                     </div>
                 </div>
             </div>
@@ -64,15 +64,29 @@ const loadAllData = async () => {
 };
 
 const displayAllData = (data) => {
-  console.log(data);
-  data.tools.forEach(singleAiData => {
+  data.tools.forEach((singleAiData) => {
     displayData(singleAiData);
   });
 };
 
 document.getElementById("see-more-btn").addEventListener("click", () => {
-    document.getElementById("aiCards").innerHTML = "";
+  document.getElementById("aiCards").innerHTML = "";
   loadAllData();
 });
 
 loadSliceData();
+
+const loadSingleData = async (id) => {
+  const URL = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
+  try {
+    const res = await fetch(URL);
+    const data = await res.json();
+    displaySingleData(data);
+  } catch (error) {
+    console.log(data);
+  }
+};
+
+const displaySingleData = data => {
+    console.log(data);
+}
