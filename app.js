@@ -1,4 +1,41 @@
-const loadData = async () => {
+const displayData = (singleAiData) => {
+  const card = document.getElementById("aiCards");
+  card.innerHTML += `
+    <div class="col">
+        <div class="card h-100">
+            <img src="${
+              singleAiData.image
+            }" class="card-img-top p-3 rounded h-100" alt="...">
+            <div id="cardBody" class="card-body">
+                <h5 class="card-title fw-bold">Features</h5>
+                <ol id="features">
+                    <li>${singleAiData.features[0]}</li>
+                    <li>${singleAiData.features[1]}</li>
+                    <li>${
+                      singleAiData.features[2]
+                        ? singleAiData.features[2]
+                        : "Not available"
+                    }</li>
+                </ol>
+            </div>
+            <div class="card-footer py-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                    <h5 class="fw-bold">${singleAiData.name}</h5>
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <small>${singleAiData.published_in}</small>
+                    </div>
+                    <div>
+                        <button class="btn bg-danger-subtle rounded-circle opacity-.1"><i class="fa-solid fa-arrow-right text-danger"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+       `;
+};
+
+const loadSliceData = async () => {
   const URL = `https://openapi.programming-hero.com/api/ai/tools`;
   try {
     const res = await fetch(URL);
@@ -9,42 +46,33 @@ const loadData = async () => {
   }
 };
 
-const displaySliceData = data => {
-  console.log(data.tools);
-
-  data.tools.slice(0, 6).forEach((singleAi) => {
-    console.log(singleAi);
-
-    const card = document.getElementById("aiCards");
-    card.innerHTML += `
-       <div class="col">
-       <div class="card h-100">
-           <img src="${singleAi.image}" class="card-img-top p-3 rounded h-100" alt="...">
-           <div id="cardBody" class="card-body">
-               <h5 class="card-title fw-bold">Features</h5>
-               <ol id="features">
-                <li>${singleAi.features[0]}</li>
-                <li>${singleAi.features[1]}</li>
-                <li>${singleAi.features[2]? singleAi.features[2]:"Not available"}</li>
-               </ol>
-               
-           </div>
-           <div class="card-footer">
-               <div class="d-flex align-items-center justify-content-between">
-                <div>
-                <h5 class="fw-bold">${singleAi.name}</h5>
-                <i class="fa-solid fa-calendar-days"></i>
-                <small>${singleAi.published_in}</small>
-                </div>
-                <div>
-                    <button class="btn bg-danger-subtle rounded-circle opacity-.1"><i class="fa-solid fa-arrow-right text-danger"></i></button>
-                </div>
-               </div>
-           </div>
-       </div>
-   </div>
-       `;
+const displaySliceData = (data) => {
+  data.tools.slice(0, 6).forEach((singleAiData) => {
+    displayData(singleAiData);
   });
 };
 
-loadData();
+const loadAllData = async () => {
+  const URL = `https://openapi.programming-hero.com/api/ai/tools`;
+  try {
+    const res = await fetch(URL);
+    const data = await res.json();
+    displayAllData(data.status ? data.data : data.status);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const displayAllData = (data) => {
+  console.log(data);
+  data.tools.forEach(singleAiData => {
+    displayData(singleAiData);
+  });
+};
+
+document.getElementById("see-more-btn").addEventListener("click", () => {
+    document.getElementById("aiCards").innerHTML = "";
+  loadAllData();
+});
+
+loadSliceData();
