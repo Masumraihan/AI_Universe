@@ -175,12 +175,12 @@ const displaySingleData = (data) => {
         <div class="card h-100">
             <img src="${
               info.image_link[0]
-            }" class="card-img-top px-4 pt-4 rounded" alt="...">
+            }" class="card-img-top px-4 py-4 rounded" alt="...">
             <div id="input-output" class="card-body text-center px-4">
             </div>
             <div id="accuracy-container" class="position-absolute" style="top: 7%; right: 7%;">
                 <div class="bg-danger position-relative rounded" style="width: 250px; height: 40px;">
-                    <p id="accuracy-text" class="text-white fw-bold position-absolute top-50 start-50 translate-middle">hlw</p>
+                    <p id="accuracy-text" class="text-white fw-bold position-absolute top-50 start-50 translate-middle"></p>
                 </div>
             </div>
         </div>
@@ -213,15 +213,26 @@ const displaySingleData = (data) => {
     const pricingContainer = document.getElementById("pricing-container");
     pricing.forEach((element) => {
       const div = document.createElement("div");
-      div.classList.add("col", "bg-white", "px-1", "py-5", "rounded");
+      div.classList.add("col", "bg-white","d-flex","align-items-center","justify-content-center", "rounded","px-2","py-4");
       div.innerHTML = `
+        <div>
         <p class="m-auto fw-bold text-danger">${element.price}</p>
         <p class="m-auto fw-bold text-success">${element.plan}</p>
+        </div>
       `;
       pricingContainer.appendChild(div);
     });
-  } else
-    document.getElementById("pricing-container").innerText = "Data Not Found";
+  } else{
+    const pricingContainer = document.getElementById("pricing-container");
+    const div = document.createElement("div");
+      div.classList.add("col", "bg-white","d-flex","align-items-center","justify-content-center", "rounded","px-2","py-4");
+      div.innerHTML = `
+        <div>
+        <p class="m-auto fw-bold text-danger">No const</p>
+        </div>
+      `;
+      pricingContainer.appendChild(div);
+  }
 
   if (inputOutput) {
     const inputOutputContainer = document.getElementById("input-output");
