@@ -136,7 +136,7 @@ const displaySingleData = (data) => {
         <div class="card bg-danger-subtle border border-danger h-100"> 
             <div class="card-body">
                 <h5 class="card-title px-5 pt-4">${info.description}</h5>
-                <div id="pricing-container" class="row row-cols-4 align-items-center justify-content-between text-center p-3">
+                <div id="pricing-container" class="row row-cols-4 align-items-center justify-content-evenly text-center p-3">
                   
                         
                 </div>
