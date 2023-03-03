@@ -50,6 +50,7 @@ const loadSliceData = async () => {
     const res = await fetch(URL);
     const data = await res.json();
     displaySliceData(data.status ? data.data : data.status);
+    //displaySortData(data.status ? data.data : data.status);
   } catch (error) {
     console.log(error);
   }
@@ -59,11 +60,9 @@ const displaySliceData = (data) => {
   data.tools.slice(0, 6).forEach((singleAiData) => {
     displayData(singleAiData);
   });
+  displaySortData(data.tools.slice(0,6));
 };
 
-const sortData = (data) => {
-  console.log(data);
-};
 
 const loadAllData = async () => {
   togglePreloader(true);
@@ -76,12 +75,28 @@ const loadAllData = async () => {
     console.log(error);
   }
 };
-
 const displayAllData = (data) => {
   data.tools.forEach((singleAiData) => {
     displayData(singleAiData);
+    displaySortData(data.tools);
   });
 };
+
+const displaySortData = data => {
+  document.getElementById("sort-btn").addEventListener("click", () => {
+    //console.log(data.tools);
+    const sortDate = (date1, date2) => {
+      const firstDate = new Date(date1.published_in);
+      const secondDate = new Date(date2.published_in);
+      return firstDate - secondDate;
+    };
+    document.getElementById("aiCards").innerHTML = "";
+    data.sort(sortDate).forEach(element => {
+      displayData(element);
+    });
+  });
+}
+
 
 document.getElementById("see-more-btn").addEventListener("click", () => {
   document.getElementById("aiCards").innerHTML = "";
@@ -205,17 +220,20 @@ const displaySingleData = (data) => {
       `;
       pricingContainer.appendChild(div);
     });
-  } else document.getElementById("pricing-container").innerText = "Data Not Found"
+  } else
+    document.getElementById("pricing-container").innerText = "Data Not Found";
 
   if (inputOutput) {
-    const inputOutputContainer = document.getElementById('input-output');
-    inputOutput.forEach(text => {
-      const div = document.createElement('div');
+    const inputOutputContainer = document.getElementById("input-output");
+    inputOutput.forEach((text) => {
+      const div = document.createElement("div");
       div.innerHTML = `
       <h5 class="card-title">${text.input}</h5>
       <p class="card-text">${text.output}</p>
-      `
+      `;
       inputOutputContainer.appendChild(div);
     });
-  } else document.getElementById('input-output').innerText = "No! Not Yet! Take a break!!!"
+  } else
+    document.getElementById("input-output").innerText =
+      "No! Not Yet! Take a break!!!";
 };
