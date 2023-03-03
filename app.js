@@ -3,19 +3,11 @@ const displayData = (singleAiData) => {
   card.innerHTML += `
     <div class="col">
         <div class="card h-100">
-            <img src="${
-              singleAiData.image
-            }" class="card-img-top p-3 rounded h-100" alt="...">
+            <img src="${singleAiData.image}" class="card-img-top p-3 rounded h-100" alt="...">
             <div id="cardBody" class="card-body">
                 <h5 class="card-title fw-bold">Features</h5>
-                <ol id="features">
-                    <li>${singleAiData.features[0]}</li>
-                    <li>${singleAiData.features[1]}</li>
-                    <li>${
-                      singleAiData.features[2]
-                        ? singleAiData.features[2]
-                        : "Not available"
-                    }</li>
+                <ol id="${singleAiData.id}">
+                    
                 </ol>
             </div>
             <div class="card-footer py-4">
@@ -26,15 +18,19 @@ const displayData = (singleAiData) => {
                     <small>${singleAiData.published_in}</small>
                     </div>
                     <div>
-                        <button onclick="loadSingleData('${
-                          singleAiData.id
-                        }')" data-bs-toggle="modal" data-bs-target="#singleAiModal" class="btn bg-danger-subtle rounded-circle opacity-.1"><i class="fa-solid fa-arrow-right text-danger"></i></button>
+                        <button onclick="loadSingleData('${singleAiData.id}')" data-bs-toggle="modal" data-bs-target="#singleAiModal" class="btn bg-danger-subtle rounded-circle opacity-.1"><i class="fa-solid fa-arrow-right text-danger"></i></button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
        `;
+  singleAiData.features.forEach((feature) => {
+    const ol = document.getElementById(singleAiData.id);
+    const li = document.createElement("li");
+    li.innerText = feature;
+    ol.appendChild(li);
+  });
   togglePreloader(false);
 };
 
@@ -63,6 +59,10 @@ const displaySliceData = (data) => {
   data.tools.slice(0, 6).forEach((singleAiData) => {
     displayData(singleAiData);
   });
+};
+
+const sortData = (data) => {
+  console.log(data);
 };
 
 const loadAllData = async () => {
@@ -104,6 +104,15 @@ const loadSingleData = async (id) => {
 const displaySingleData = (data) => {
   const info = data.data;
   const accuracy = info.accuracy;
+  const inputOutput = info.input_output_examples;
+
+  let input_output_examples = "No! Not Yet! Take a break!!!";
+  if (info.input_output_examples) {
+    input_output_examples = info.input_output_examples;
+  }
+  const integrations = info.integrations;
+  const pricing = info.pricing;
+
   const modalContent = document.getElementById("modal-content");
   modalContent.innerHTML = `
     <div id="modal-body" class="modal-body">
@@ -112,31 +121,9 @@ const displaySingleData = (data) => {
         <div class="card bg-danger-subtle border border-danger h-100"> 
             <div class="card-body">
                 <h5 class="card-title px-5 pt-4">${info.description}</h5>
-                <div class="row row-cols-4 align-items-center justify-content-between text-center p-3">
-                    <div class="col bg-white px-1 py-5 rounded">
-                        <p class="m-auto fw-bold text-success">${
-                          info.pricing[0].price
-                        }</p>
-                        <p class="m-auto fw-bold text-success">${
-                          info.pricing[0].plan
-                        }</p>
-                    </div>
-                    <div class="col bg-white px-1 py-5 rounded">
-                        <p class="m-auto fw-bold text-warning">${
-                          info.pricing[1].price
-                        }</p>
-                        <p class="m-auto fw-bold text-warning">${
-                          info.pricing[1].plan
-                        }</p>
-                    </div>
-                    <div class="col bg-white px-1 py-5 rounded">
-                        <p class="m-auto fw-bold text-danger">${
-                          info.pricing[2].price
-                        }</p>
-                        <p class="m-auto fw-bold text-danger">${
-                          info.pricing[2].plan
-                        }</p>
-                    </div>
+                <div id="pricing-container" class="row row-cols-4 align-items-center justify-content-between text-center p-3">
+                  
+                        
                 </div>
                 <div class="row row cols-2 px-2 align-items-center justify-content-between">
                     <div class="col">
@@ -161,22 +148,8 @@ const displaySingleData = (data) => {
                     </div>
                     <div class="col">
                         <h5>Integrations</h5>
-                        <ul>
-                            <li>${
-                              info.integrations[0]
-                                ? info.integrations[0]
-                                : "not available"
-                            }</li>
-                            <li>${
-                              info.integrations[1]
-                                ? info.integrations[1]
-                                : "not available"
-                            }</li>
-                            <li>${
-                              info.integrations[2]
-                                ? info.integrations[2]
-                                : "not available"
-                            }</li>
+                        <ul id="${info.id * 2}">
+                            
                         </ul>
                     </div>
                 </div>
@@ -188,15 +161,7 @@ const displaySingleData = (data) => {
             <img src="${
               info.image_link[0]
             }" class="card-img-top px-4 pt-4 rounded" alt="...">
-            <div class="card-body text-center px-4">
-                <h5 class="card-title">${
-                  info.input_output_examples[0].input
-                }</h5>
-                <p class="card-text">${
-                  info.input_output_examples[0].output
-                    ? info.input_output_examples[0].output
-                    : "No! Not Yet! Take a break!!!"
-                }</p>
+            <div id="input-output" class="card-body text-center px-4">
             </div>
             <div id="accuracy-container" class="position-absolute" style="top: 7%; right: 7%;">
                 <div class="bg-danger position-relative rounded" style="width: 250px; height: 40px;">
@@ -212,9 +177,45 @@ const displaySingleData = (data) => {
     </div>
 </div>
   `;
+  if (integrations) {
+    integrations.forEach((integration) => {
+      const ul = document.getElementById(info.id * 2);
+      const li = document.createElement("li");
+      li.innerText = integration;
+      ul.appendChild(li);
+    });
+  } else {
+    document.getElementById(info.id * 2).innerText = "No data Found";
+  }
+
   if (accuracy.score) {
     document.getElementById("accuracy-text").innerText = `${
       accuracy.score * 100
     }% accuracy`;
   } else document.getElementById("accuracy-container").style.display = "none";
+
+  if (pricing) {
+    const pricingContainer = document.getElementById("pricing-container");
+    pricing.forEach((element) => {
+      const div = document.createElement("div");
+      div.classList.add("col", "bg-white", "px-1", "py-5", "rounded");
+      div.innerHTML = `
+        <p class="m-auto fw-bold text-danger">${element.price}</p>
+        <p class="m-auto fw-bold text-success">${element.plan}</p>
+      `;
+      pricingContainer.appendChild(div);
+    });
+  } else document.getElementById("pricing-container").innerText = "Data Not Found"
+
+  if (inputOutput) {
+    const inputOutputContainer = document.getElementById('input-output');
+    inputOutput.forEach(text => {
+      const div = document.createElement('div');
+      div.innerHTML = `
+      <h5 class="card-title">${text.input}</h5>
+      <p class="card-text">${text.output}</p>
+      `
+      inputOutputContainer.appendChild(div);
+    });
+  } else document.getElementById('input-output').innerText = "No! Not Yet! Take a break!!!"
 };
