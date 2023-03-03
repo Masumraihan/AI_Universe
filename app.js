@@ -85,47 +85,50 @@ const loadSingleData = async (id) => {
     const data = await res.json();
     displaySingleData(data);
   } catch (error) {
-    console.log(data);
+    console.log(error);
   }
 };
 
 const displaySingleData = (data) => {
-  console.log(data.data);
   const info = data.data;
+  const accuracy = info.accuracy;
   const modalContent = document.getElementById("modal-content");
   modalContent.innerHTML = `
     <div id="modal-body" class="modal-body">
-    <div class="row row-cols-1 row-cols-lg-2 g-4 p-5">
+    <div class="row row-cols-1 row-cols-lg-2 g-4 p-3">
     <div class="col">
         <div class="card bg-danger-subtle border border-danger h-100"> 
             <div class="card-body">
                 <h5 class="card-title px-5 pt-4">${info.description}</h5>
-                <div class="row row-cols-4 align-items-center justify-content-between text-center p-5">
-                    <div class="col bg-white px-3 py-5 rounded">
-                        <p class="m-auto fw-bold text-success">hlw</p>
+                <div class="row row-cols-4 align-items-center justify-content-between text-center p-3">
+                    <div class="col bg-white px-1 py-5 rounded">
+                        <p class="m-auto fw-bold text-success">${info.pricing[0].price}</p>
+                        <p class="m-auto fw-bold text-success">${info.pricing[0].plan}</p>
                     </div>
-                    <div class="col bg-white px-3 py-5 rounded">
-                        <p class="m-auto fw-bold text-warning">hlw</p>
+                    <div class="col bg-white px-1 py-5 rounded">
+                        <p class="m-auto fw-bold text-warning">${info.pricing[1].price}</p>
+                        <p class="m-auto fw-bold text-warning">${info.pricing[1].plan}</p>
                     </div>
-                    <div class="col bg-white px-3 py-5 rounded">
-                        <p class="m-auto fw-bold text-danger">hlw</p>
+                    <div class="col bg-white px-1 py-5 rounded">
+                        <p class="m-auto fw-bold text-danger">${info.pricing[2].price}</p>
+                        <p class="m-auto fw-bold text-danger">${info.pricing[2].plan}</p>
                     </div>
                 </div>
-                <div class="row row cols-2 px-5 align-items-center justify-content-between">
+                <div class="row row cols-2 px-2 align-items-center justify-content-between">
                     <div class="col">
                         <h5>Features</h5>
                         <ul>
-                            <li>hlw</li>
-                            <li>hlw</li>
-                            <li>hlw</li>
+                            <li>${info.features[1].feature_name?info.features[1].feature_name:"not available"}</li>
+                            <li>${info.features[2].feature_name?info.features[2].feature_name:"not available"}</li>
+                            <li>${info.features[3].feature_name?info.features[3].feature_name:"not available"}</li>
                         </ul>
                     </div>
                     <div class="col">
                         <h5>Integrations</h5>
                         <ul>
-                            <li>hlw</li>
-                            <li>hlw</li>
-                            <li>hlw</li>
+                            <li>${info.integrations[0]?info.integrations[0]:"not available"}</li>
+                            <li>${info.integrations[1]?info.integrations[1]:"not available"}</li>
+                            <li>${info.integrations[2]?info.integrations[2]:"not available"}</li>
                         </ul>
                     </div>
                 </div>
@@ -134,15 +137,14 @@ const displaySingleData = (data) => {
     </div>
     <div class="col">
         <div class="card h-100">
-            <img src="https://www.imgacademy.com/sites/default/files/2022-07/img-homepage-meta.jpg" class="card-img-top px-4 pt-4 rounded" alt="...">
+            <img src="${info.image_link[0]}" class="card-img-top px-4 pt-4 rounded" alt="...">
             <div class="card-body text-center px-4">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title
-                    and make up the bulk of the card's content.</p>
+                <h5 class="card-title">${info.input_output_examples[0].input}</h5>
+                <p class="card-text">${info.input_output_examples[0].output?info.input_output_examples[0].output:"No! Not Yet! Take a break!!!"}</p>
             </div>
-            <div class="position-absolute" style="top: 7%; right: 7%;">
-                <div class="bg-danger position-relative rounded" style="width: 160px; height: 40px;">
-                    <p class="text-white fw-bold position-absolute top-50 start-50 translate-middle">hlw</p>
+            <div id="accuracy-container" class="position-absolute" style="top: 7%; right: 7%;">
+                <div class="bg-danger position-relative rounded" style="width: 250px; height: 40px;">
+                    <p id="accuracy-text" class="text-white fw-bold position-absolute top-50 start-50 translate-middle">hlw</p>
                 </div>
             </div>
         </div>
@@ -154,4 +156,7 @@ const displaySingleData = (data) => {
     </div>
 </div>
   `;
+  if (accuracy.score) {
+    document.getElementById('accuracy-text').innerText = `${accuracy.score * 100}% accuracy`;
+  } else document.getElementById('accuracy-container').style.display = "none";
 };
