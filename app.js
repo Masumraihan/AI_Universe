@@ -38,8 +38,18 @@ const displayData = (singleAiData) => {
   togglePreloader(false);
 };
 
+const togglePreloader = (isLoading) => {
+  if (isLoading) {
+    document.getElementById("spinner").classList.remove("d-none");
+  } else {
+    document.getElementById("spinner").classList.add("d-none");
+  }
+};
+
 const loadSliceData = async () => {
+  togglePreloader(true);
   const URL = `https://openapi.programming-hero.com/api/ai/tools`;
+  togglePreloader(true);
   try {
     const res = await fetch(URL);
     const data = await res.json();
@@ -79,14 +89,6 @@ document.getElementById("see-more-btn").addEventListener("click", () => {
 });
 
 loadSliceData();
-
-const togglePreloader = (isLoading) => {
-  if (isLoading) {
-    document.getElementById("spinner").classList.remove("d-none");
-  } else {
-    document.getElementById("spinner").classList.add("d-none");
-  }
-};
 
 const loadSingleData = async (id) => {
   const URL = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
