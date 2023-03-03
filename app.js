@@ -228,7 +228,7 @@ const displaySingleData = (data) => {
       div.classList.add("col", "bg-white","d-flex","align-items-center","justify-content-center", "rounded","px-2","py-4");
       div.innerHTML = `
         <div>
-        <p class="m-auto fw-bold text-danger">No const</p>
+        <p class="m-auto fw-bold text-danger">Free Of Cost</p>
         </div>
       `;
       pricingContainer.appendChild(div);
