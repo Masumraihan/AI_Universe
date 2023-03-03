@@ -19,6 +19,14 @@
         </nav>
     </header>
     <main>
+        <!-- spinner -->
+        <section>
+            <div id="spinner" class="d-flex justify-content-center py-5 d-none">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </section>
         <section class="container">
             <div id="aiCards" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
 
@@ -26,16 +34,16 @@
             <button id="see-more-btn" class="btn btn-danger d-block mx-auto p-3 fw-bold my-4">See More</button>
         </section>
         <section>
-
             <!-- Modal -->
             <div class="modal fade modal-xl" id="singleAiModal" tabindex="-1" aria-labelledby="singleAiModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div id="modal-content" class="modal-content">
-                        
+
                     </div>
                 </div>
         </section>
+
     </main>
 
     <!-- custom Js -->

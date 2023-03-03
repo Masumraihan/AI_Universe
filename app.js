@@ -35,6 +35,7 @@ const displayData = (singleAiData) => {
         </div>
     </div>
        `;
+  togglePreloader(false);
 };
 
 const loadSliceData = async () => {
@@ -55,6 +56,7 @@ const displaySliceData = (data) => {
 };
 
 const loadAllData = async () => {
+  togglePreloader(true);
   const URL = `https://openapi.programming-hero.com/api/ai/tools`;
   try {
     const res = await fetch(URL);
@@ -77,6 +79,14 @@ document.getElementById("see-more-btn").addEventListener("click", () => {
 });
 
 loadSliceData();
+
+const togglePreloader = (isLoading) => {
+  if (isLoading) {
+    document.getElementById("spinner").classList.remove("d-none");
+  } else {
+    document.getElementById("spinner").classList.add("d-none");
+  }
+};
 
 const loadSingleData = async (id) => {
   const URL = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
@@ -102,33 +112,69 @@ const displaySingleData = (data) => {
                 <h5 class="card-title px-5 pt-4">${info.description}</h5>
                 <div class="row row-cols-4 align-items-center justify-content-between text-center p-3">
                     <div class="col bg-white px-1 py-5 rounded">
-                        <p class="m-auto fw-bold text-success">${info.pricing[0].price}</p>
-                        <p class="m-auto fw-bold text-success">${info.pricing[0].plan}</p>
+                        <p class="m-auto fw-bold text-success">${
+                          info.pricing[0].price
+                        }</p>
+                        <p class="m-auto fw-bold text-success">${
+                          info.pricing[0].plan
+                        }</p>
                     </div>
                     <div class="col bg-white px-1 py-5 rounded">
-                        <p class="m-auto fw-bold text-warning">${info.pricing[1].price}</p>
-                        <p class="m-auto fw-bold text-warning">${info.pricing[1].plan}</p>
+                        <p class="m-auto fw-bold text-warning">${
+                          info.pricing[1].price
+                        }</p>
+                        <p class="m-auto fw-bold text-warning">${
+                          info.pricing[1].plan
+                        }</p>
                     </div>
                     <div class="col bg-white px-1 py-5 rounded">
-                        <p class="m-auto fw-bold text-danger">${info.pricing[2].price}</p>
-                        <p class="m-auto fw-bold text-danger">${info.pricing[2].plan}</p>
+                        <p class="m-auto fw-bold text-danger">${
+                          info.pricing[2].price
+                        }</p>
+                        <p class="m-auto fw-bold text-danger">${
+                          info.pricing[2].plan
+                        }</p>
                     </div>
                 </div>
                 <div class="row row cols-2 px-2 align-items-center justify-content-between">
                     <div class="col">
                         <h5>Features</h5>
                         <ul>
-                            <li>${info.features[1].feature_name?info.features[1].feature_name:"not available"}</li>
-                            <li>${info.features[2].feature_name?info.features[2].feature_name:"not available"}</li>
-                            <li>${info.features[3].feature_name?info.features[3].feature_name:"not available"}</li>
+                            <li>${
+                              info.features[1].feature_name
+                                ? info.features[1].feature_name
+                                : "not available"
+                            }</li>
+                            <li>${
+                              info.features[2].feature_name
+                                ? info.features[2].feature_name
+                                : "not available"
+                            }</li>
+                            <li>${
+                              info.features[3].feature_name
+                                ? info.features[3].feature_name
+                                : "not available"
+                            }</li>
                         </ul>
                     </div>
                     <div class="col">
                         <h5>Integrations</h5>
                         <ul>
-                            <li>${info.integrations[0]?info.integrations[0]:"not available"}</li>
-                            <li>${info.integrations[1]?info.integrations[1]:"not available"}</li>
-                            <li>${info.integrations[2]?info.integrations[2]:"not available"}</li>
+                            <li>${
+                              info.integrations[0]
+                                ? info.integrations[0]
+                                : "not available"
+                            }</li>
+                            <li>${
+                              info.integrations[1]
+                                ? info.integrations[1]
+                                : "not available"
+                            }</li>
+                            <li>${
+                              info.integrations[2]
+                                ? info.integrations[2]
+                                : "not available"
+                            }</li>
                         </ul>
                     </div>
                 </div>
@@ -137,10 +183,18 @@ const displaySingleData = (data) => {
     </div>
     <div class="col">
         <div class="card h-100">
-            <img src="${info.image_link[0]}" class="card-img-top px-4 pt-4 rounded" alt="...">
+            <img src="${
+              info.image_link[0]
+            }" class="card-img-top px-4 pt-4 rounded" alt="...">
             <div class="card-body text-center px-4">
-                <h5 class="card-title">${info.input_output_examples[0].input}</h5>
-                <p class="card-text">${info.input_output_examples[0].output?info.input_output_examples[0].output:"No! Not Yet! Take a break!!!"}</p>
+                <h5 class="card-title">${
+                  info.input_output_examples[0].input
+                }</h5>
+                <p class="card-text">${
+                  info.input_output_examples[0].output
+                    ? info.input_output_examples[0].output
+                    : "No! Not Yet! Take a break!!!"
+                }</p>
             </div>
             <div id="accuracy-container" class="position-absolute" style="top: 7%; right: 7%;">
                 <div class="bg-danger position-relative rounded" style="width: 250px; height: 40px;">
@@ -157,6 +211,8 @@ const displaySingleData = (data) => {
 </div>
   `;
   if (accuracy.score) {
-    document.getElementById('accuracy-text').innerText = `${accuracy.score * 100}% accuracy`;
-  } else document.getElementById('accuracy-container').style.display = "none";
+    document.getElementById("accuracy-text").innerText = `${
+      accuracy.score * 100
+    }% accuracy`;
+  } else document.getElementById("accuracy-container").style.display = "none";
 };
