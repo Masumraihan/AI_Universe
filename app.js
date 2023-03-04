@@ -34,6 +34,7 @@ const displayData = (singleAiData) => {
   togglePreloader(false);
 };
 
+// spinner 
 const togglePreloader = (isLoading) => {
   if (isLoading) {
     document.getElementById("spinner").classList.remove("d-none");
@@ -42,6 +43,7 @@ const togglePreloader = (isLoading) => {
   }
 };
 
+// slice data load
 const loadSliceData = async () => {
   togglePreloader(true);
   const URL = `https://openapi.programming-hero.com/api/ai/tools`;
@@ -56,6 +58,7 @@ const loadSliceData = async () => {
   }
 };
 
+// slice data display
 const displaySliceData = (data) => {
   data.tools.slice(0, 6).forEach((singleAiData) => {
     displayData(singleAiData);
@@ -63,7 +66,7 @@ const displaySliceData = (data) => {
   displaySortData(data.tools.slice(0,6));
 };
 
-
+//all data load
 const loadAllData = async () => {
   togglePreloader(true);
   const URL = `https://openapi.programming-hero.com/api/ai/tools`;
@@ -75,6 +78,8 @@ const loadAllData = async () => {
     console.log(error);
   }
 };
+
+// display all data
 const displayAllData = (data) => {
   data.tools.forEach((singleAiData) => {
     displayData(singleAiData);
@@ -82,6 +87,7 @@ const displayAllData = (data) => {
   });
 };
 
+//data sort function
 const displaySortData = data => {
   document.getElementById("sort-btn").addEventListener("click", () => {
     //console.log(data.tools);
@@ -97,7 +103,7 @@ const displaySortData = data => {
   });
 }
 
-
+//load all data btn
 document.getElementById("see-more-btn").addEventListener("click", () => {
   document.getElementById("aiCards").innerHTML = "";
   loadAllData();
@@ -105,6 +111,7 @@ document.getElementById("see-more-btn").addEventListener("click", () => {
 
 loadSliceData();
 
+//modal data load
 const loadSingleData = async (id) => {
   const URL = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
   try {
@@ -116,6 +123,7 @@ const loadSingleData = async (id) => {
   }
 };
 
+//display modal data
 const displaySingleData = (data) => {
   const info = data.data;
   const accuracy = info.accuracy;
@@ -137,8 +145,7 @@ const displaySingleData = (data) => {
             <div class="card-body">
                 <h5 class="card-title px-5 pt-4">${info.description}</h5>
                 <div id="pricing-container" class="row row-cols-4 align-items-center justify-content-evenly text-center p-3">
-                  
-                        
+                    
                 </div>
                 <div class="row row cols-2 px-2 align-items-center justify-content-between">
                     <div class="col">
